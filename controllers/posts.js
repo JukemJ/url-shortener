@@ -8,11 +8,12 @@ module.exports = {
       // const shorty = `${req.protocol}://${req.get('host')}/${id}`
       const shorty = `${req.get('host')}/${id}`
       console.log(req.body.url)
-      try {await fetch(req.body.url)}
-      catch (err) {
-        console.log(err)
-        return res.status(404).json({ error: 'invalid url' })
-      }
+      if(!req.body.url.startsWith('http')) return res.json({ error: 'invalid url' })
+      // try {await fetch(req.body.url)}
+      // catch (err) {
+      //   console.log(err)
+      //   return d
+      // }
       
       
       await Post.create({
