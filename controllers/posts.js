@@ -2,7 +2,7 @@ const Post = require("../models/Post");
 const chance = require('chance').Chance();
 
 module.exports = {
-  createPost: async (req, res) => {
+  createPost: (req, res) => {
     try {
       const id = chance.string({ length: 5, alpha: true })
       // const shorty = `${req.protocol}://${req.get('host')}/${id}`
@@ -16,7 +16,7 @@ module.exports = {
       // }
       
       
-      await Post.create({
+      Post.create({
         URLid: id,
         longURL: req.body.url,
       });
