@@ -9,7 +9,10 @@ module.exports = {
       const shorty = `${req.get('host')}/${id}`
       console.log(req.body.url)
       try {await fetch(req.body.url)}
-      catch (err) {return res.json({ error: 'invalid url' })}
+      catch (err) {
+        console.log(err)
+        return res.json({ error: 'invalid url' })
+      }
       
       
       await Post.create({
