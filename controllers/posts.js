@@ -7,13 +7,18 @@ module.exports = {
       const id = chance.string({ length: 5, alpha: true })
       // const shorty = `${req.protocol}://${req.get('host')}/${id}`
       const shorty = `${req.get('host')}/${id}`
+      console.log(req.body.url)
+      try {await fetch(req.body.url)}
+      catch (err) {return res.json({ error: 'invalid url' })}
+      
       
       await Post.create({
         URLid: id,
         longURL: req.body.url,
       });
-      console.log("Link has been added!");
-      res.render('index.ejs', {url: shorty});
+      console.log("Link has been added!",req.body.url);
+      res.json({original_url:req.body.url, short_url:id})
+      //res.render('index.ejs', {url: shorty});
     } catch (err) {
       console.log(err);
     }
@@ -21,11 +26,12 @@ module.exports = {
 
   getPost: async (req, res) => {
     try {
-      const post = await Post.findOne({URLid: req.params.id});
+      const post = await Post.findOne({URLid: req.params.url});
       if(!post) res.status(404).send('URL not found :(')
-      const url = 'https://' + post.longURL
+      //console.log(post.longURL)
+      //const url = 'https://' + post.longURL
       
-      res.redirect(url)
+      res.redirect(post.longURL)
     } catch (err) {
       console.log(err);
     }
