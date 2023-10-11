@@ -11,7 +11,7 @@ module.exports = {
       try {await fetch(req.body.url)}
       catch (err) {
         console.log(err)
-        return res.json({ error: 'invalid url' })
+        return res.status(404).json({ error: 'invalid url' })
       }
       
       
